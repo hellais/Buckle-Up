@@ -1,0 +1,65 @@
+; Firefox sandboxing profile
+; based on : http://hints.macworld.com/article.php?story=20100318044558156
+; and : http://codereview.chromium.org/379019/diff/1/2
+
+(version 1)
+(deny default)
+
+(allow file-write* file-read-data file-read-metadata
+    (regex
+        #"^/Users/[^.]+/Downloads"
+        #"^/Users/[^.]+/Library/Application Support/Mozilla"
+        #"^/Users/[^.]+/Library/Application Support/Firefox"
+        #"^/Users/[^.]+/Library/Preferences"
+        #"^/Users/[^.]+/Library/PreferencePanes"
+        #"^/Users/[^.]+/Library/Caches/Firefox"
+        #"^/Users/[^.]+/Library/Caches/TemporaryItems"
+        #"^/Applications/Firefox.app"
+        #"^/private/tmp/"
+        #"^/private/var/tmp/"
+    )
+)
+
+(allow file-read-data file-read-metadata
+    (regex
+        #"^/dev/autofs.*"
+        #"^/Library/Preferences"
+        #"^/Library/Internet Plug-Ins"
+        #"^/Library/PreferencePanes"
+        #"^/Library/Fonts"
+        #"^/Library/Caches"
+        #"^/usr/share/icu"
+        #"^/usr/share/locale"
+        #"^/System/Library"
+        #"^/Applications/Firefox.app"
+        #"^/usr/lib"
+        #"^/var"
+        #"Frameworks/SDL.framework"
+        ; Our Module Directory Services cache
+        #"^/private/var/tmp/mds/"
+        #"^/private/var/tmp/mds/[0-9]+(/|$)"
+        #"^/Users/[^.]+/Library/"
+        ; Maybe this should be disabled, need to do more testing.
+        #"^/Users/[^.]+/"
+    )
+)
+
+(allow iokit-open)
+
+(allow mach* sysctl-read)
+
+(import "/usr/share/sandbox/bsd.sb")
+(deny file-write-data
+   (regex
+        #"^(/private)?/etc/localtime$"
+        #"^/usr/share/nls/"
+        #"^/usr/share/zoneinfo/"
+    )
+)
+
+(allow process-exec
+  (regex "^/Applications/Firefox.app")
+)
+
+(allow network*)
+
