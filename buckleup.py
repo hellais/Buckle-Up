@@ -108,7 +108,7 @@ class BuckleUp(object):
             try:
                 patch = open(sb['app_location'], 'w')
                 patch.write("#!/bin/sh\n")
-                patch.write("# This patch was written by Buckle Up v 0.1 (http://github.com/hellais/Buckle-Up/\n")
+                patch.write("# This patch was written by Buckle Up v 0.1 (http://github.com/hellais/Buckle-Up/)\n")
                 patch.write(cmd)
                 patch.write("\n")
             except Exception, e:
