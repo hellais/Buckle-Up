@@ -51,8 +51,9 @@
 ; Allow write access to a subset of the above
 (allow file-write*
     (regex
-        #"/Users/[^.]/Library/Application Support/*"
-        #"/Users/[^.]/Library/Saved Application State/com.adiumX*"
+        #"/Users/[^.]+/Library/Application Support/*"
+        #"/Users/[^.]+/Library/Saved Application State/com.adiumX*"
+        #"/Users/[^.]+/Preferences/ByHost"
         #"^/dev/dtracehelper"
         #"^/private/var/*"
         #"^/var/folders/th/*"
