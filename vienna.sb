@@ -1,0 +1,186 @@
+;
+; Vienna 2.5.x Sandbox profile
+; (c) fG!, 2011
+; reverser@put.as
+; v0.1 - 13/09/2011 ;
+; Note: replace %username% with your username
+;
+(version 1)
+; well this doesn't seem to work...
+(debug all)
+
+;(trace "trace.sb")
+; stuff we allow to execute
+(allow process-exec (literal "/Applications/Vienna.app/Contents/MacOS/Vienna"))
+
+; no need for forks? great :-)
+;(allow process-fork)
+; it needs to read some sysctl variables
+
+(allow sysctl-read)
+
+; where?
+(allow sysctl-write)
+; ----------------
+; READ PERMISSIONS
+; ----------------
+; allow read system libraries and frameworks (from bsd.sb)
+(allow file-read-data file-read-metadata
+    (regex
+        #"^/usr/lib/.*\.dylib$"
+        #"^/usr/lib/info/.*\.so$"
+        #"^/private/var/db/dyld/"
+        #"^/System/Library/Frameworks/*"
+        #"^/System/Library/PrivateFrameworks/*"
+        #"^/System/Library/*"
+    )
+)
+; Vienna Frameworks
+
+(allow file-read*
+    (regex
+        ; Vienna itself
+        #"^/Applications/Vienna.app/*"
+        ; Growl
+        #"^/Library/PreferencePanes/Growl.prefPane/*"
+    )
+)
+; allow read to required system stuff
+(allow file-read*
+    (regex
+        #"^/usr/share/zoneinfo/*"
+        #"^/dev/*"
+        #"^/usr/share/icu/*"
+    )
+    (regex
+        #"^/private/var/folders/*"
+        ; do we really need access to keychains ?
+        #"^/Users/%username%/Library/Keychains/*"
+        #"^/Library/Fonts/*"
+        #"^/Users/%username%/Library/Caches/*"
+        #"^/Users/%username%/Library/InputManagers/*"
+        ; what's this ???
+        #"^/private/var/db/mds/system/*"
+    )
+    (literal "/private/etc/localtime")
+    (literal "/Users/%username%/Library/Preferences/com.apple.security.plist")
+    (literal "/private/var/db/mds/messages/se_SecurityMessages")
+    (literal "/Users/%username%/Library/Preferences/com.apple.systemuiserver.plist")
+    (literal "/Users/%username%/Library/Cookies/Cookies.plist")
+    (literal "/Users/%username%/Library/Preferences/com.apple.LaunchServices.plist")
+    (literal "/Users/%username%/Library/Preferences/pbs.plist")
+)
+
+(allow file-read-metadata
+    (literal "/")
+    (literal "/var")
+    (literal "/Applications")
+    (literal "/etc")
+    (literal "/Users")
+    (literal "/Users/%username%")
+    (literal "/System")
+    (literal "/Users/%username%/Library/Preferences") (literal "/Library")
+    (literal "/Users/%username%/Library")
+    (literal "/Library/PreferencePanes")
+    ; allow read application data (allow file-read*
+    (regex
+    #"^/Users/%username%/Library/Application Support/Vienna/*"
+    )
+)
+
+; allow read to preferences files
+(allow file-read-data file-read-metadata
+    (regex #"^/Users/%username%/Library/Preferences/ByHost/.GlobalPreferences.*")
+    (literal "/Users/%username%/Library/Preferences/.GlobalPreferences.plist")
+    (literal "/Users/%username%/Library/Preferences/uk.co.opencommunity.vienna2.plist")
+    (literal "/Library/Preferences/.GlobalPreferences.plist")
+)
+
+; web browsing related
+(allow file-read*
+    (regex
+        #"^/Users/%username%/Library/Icons/*"
+        #"^/Users/%username%/Library/Internet Plug-Ins/*"
+        #"^/Library/Internet Plug-Ins/*"
+    )
+    ; still missing some? well we could even remove quicktime and java :-)
+    (literal "/Users/%username%/Library/Preferences/com.github.rentzsch.clicktoflash.plist")
+    (literal "/Users/%username%/Library/Preferences/com.apple.java.JavaPreferences.plist")
+    (literal "/Users/%username%/Library/Preferences/com.apple.quicktime.plugin.preferences.plist")
+)
+
+; -----------------
+; WRITE PERMISSIONS
+; -----------------
+; allow write to dtrace related stuff
+(allow file-write* file-ioctl
+    (regex #"^/dev/dtracehelper$")
+)
+(allow file-write*
+    (regex
+        #"^/Users/%username%/Library/Application Support/Vienna/*"
+        #"^/Users/%username%/Library/Caches/*"
+        #"/Users/Shared/SC Info" #"^/Users/%username%/Library/Cookies/*"
+        #"^/private/var/tmp/tmp.*"
+        #"^/private/var/folders/*"
+        #"^/Users/%username%/Library/Preferences/uk.co.opencommunity.vienna2.plist*"
+    )
+)
+; web browsing related
+(allow file-write-data
+    (literal "/Users/%username%/Library/Icons/WebpageIcons.db")
+)
+
+(allow file-write*
+    (literal "/Users/%username%/Library/Icons/WebpageIcons.db-journal")
+)
+
+; ----------------
+; MACH PERMISSIONS
+; ----------------
+(allow mach-lookup
+    (global-name #"^com.apple.bsd.dirhelper")
+    (global-name "com.apple.system.logger")
+    (global-name "com.apple.system.notification_center")
+    (global-name "com.apple.CoreServices.coreservicesd")
+    (global-name "com.apple.SecurityServer")
+    (global-name "com.apple.dock.server")
+    (global-name "com.apple.distributed_notifications.2")
+    (global-name "com.apple.audio.coreaudiod")
+    (global-name "com.apple.audio.systemsoundserver")
+    (global-name "com.apple.metadata.mds")
+    (global-name "com.apple.ocspd")
+    (global-name "com.apple.SystemConfiguration.PPPController")
+    (global-name "en (Apple)_OpenStep")
+    (global-name "com.apple.system.DirectoryService.libinfo_v1")
+    (global-name "com.apple.system.DirectoryService.membership_v1")
+    (global-name "com.apple.windowserver.session")
+    (global-name "com.apple.windowserver.active")
+    (global-name "com.apple.FontServer")
+    (global-name "com.apple.pasteboard.1")
+    (global-name "com.apple.tsm.uiserver")
+    (global-name "com.apple.SystemConfiguration.configd")
+    (global-name "com.apple.VoiceOver.running")
+    (global-name "com.apple.FontObjectsServer")
+    (global-name "com.apple.FSEvents")
+    (global-name "com.apple.cvmsServ")
+    (global-name "GrowlApplicationBridgePathway")
+)
+; ------------------------------
+; MEMORY AND NETWORK PERMISSIONS
+; ------------------------------
+;
+(allow ipc-posix-shm)
+; network related stuff
+; add other ports if needed
+(allow network-outbound
+    (remote tcp "*:80")
+    (remote tcp "*:443")
+    (remote unix-socket (path-literal "/private/var/run/mDNSResponder"))
+)
+;
+(allow system-socket)
+; deny everything else :-)
+(deny default)
+
+
