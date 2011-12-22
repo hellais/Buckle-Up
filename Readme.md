@@ -2,6 +2,45 @@
 The aim of this project is raise sensibility of security on OS X
 and develop seatbelt profiles for all of the common used OSX applications.
 
+## The Buckle Up script
+Buckle Up is also a python script that assists you in patching your applications to 
+run with seatbelt profiles. 
+
+Here is it's help banner:
+
+    Buckle Up!
+    -------
+    Mac OS X sandboxing helper scripts
+    by Arturo Filasto' <art@fuffa.org>
+
+    Usage: buckleup.py [options]
+
+    Options:
+      -h, --help            show this help message and exit
+      -l, --list            list all application profiles
+      -p APP, --patch=APP   patch the desired application
+      -a APP, --application=APP
+                            explicitly set the application location
+      -u APP, --unpatch=APP
+                        remove patch from the desired application
+      -r APP, --run=APP     run the desired application in sandbox
+
+To list the currently available profiles run `./buckleup.py  -l`:
+
+    [-] Listing Buckle Up sandbox profiles...
+          Name: Adium default (APP: adium)
+          App Location: /Applications/Adium.app/Contents/MacOS/Adium
+
+          Name: Firefox default (APP: firefox)
+          App Location: /Applications/Firefox.app/Contents/MacOS/firefox
+
+You can then either run the application from Buckle Up with `./buckleup.py -r adium` 
+or patch it to use seatbelt every time your run it `./buckleup.py -p adium`.
+
+To remove the patch you should run `./buckleup.py -u adium`
+
+## Manually running apps with seatbelt profiles
+
 To run an app with sandboxing enabled all you have to do is:
 
     sandbox-exec -f <sandbox_file>.sb /path/to/the/app
