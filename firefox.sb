@@ -1,3 +1,4 @@
+;:buckleup:0.1:firefox:Firefox default:/Applications/Firefox.app/Contents/MacOS/firefox:
 ; Firefox sandboxing profile
 ; based on : http://hints.macworld.com/article.php?story=20100318044558156
 ; and : http://codereview.chromium.org/379019/diff/1/2

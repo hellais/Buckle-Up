@@ -1,9 +1,14 @@
+;:buckleup:0.1:adium:Adium default:/Applications/Adium.app/Contents/MacOS/Adium:
+;
 ; This is the seatbelt profile for Adium
 ; by Arturo Filasto' <art@globaleaks.org>
 ;
 
 (version 1)
 (debug allow)
+
+; Log to adium.sb.log
+; (trace "adium.sb.log")
 
 ; This is needed for IPC on OSX >= 10.6
 (allow ipc-posix-shm)
@@ -58,6 +63,7 @@
         #"/Users/y/Library/Preferences/com.adiumX.adiumX*"
         #"^/dev/dtracehelper"
         #"^/private/var/*"
+        #"^/private/tmp/*"
         #"^/var/folders/th/*"
     )
 )

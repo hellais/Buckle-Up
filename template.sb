@@ -1,30 +1,63 @@
-;
-; Vienna 2.5.x Sandbox profile
-; (c) fG!, 2011
-; reverser@put.as
-; v0.1 - 13/09/2011 ;
-;
+;:buckleup:0.1:myapp:My App:/Applications/MyApp.app/Contents/MacOS/MyApp:
+;; This is the seatbelt teamplate for profiling your own apps
+;; based on Vienna sandbox profile by @osxreverser
+;; by Arturo Filasto' <art@globaleaks.org>
+;;
 
 (version 1)
-; well this doesn't seem to work...
-(debug all)
+(debug allow)
 
+; Enable this to write to trace.sb the rules that trigger a deny
 ; (trace "trace.sb")
-; stuff we allow to execute
-(allow process-exec (literal "/Applications/Vienna.app/Contents/MacOS/Vienna"))
 
-; no need for forks? great :-)
-;(allow process-fork)
+(allow process-exec (literal "/Applications/<MyApp>.app/Contents/MacOS/<MyApp>"))
+
+; Some applications require to fork. Start by disabling this
+; (allow process-fork)
+
 ; it needs to read some sysctl variables
-
-(allow sysctl-read)
+; (allow sysctl-read)
 
 ; where?
-(allow sysctl-write)
+; (allow sysctl-write)
+
 ; ----------------
 ; READ PERMISSIONS
 ; ----------------
+
+;
+; MyApp specific reading permissions
+; ----------------
+
+(allow file-read*
+    (regex
+        ; MyApp itself
+        #"^/Applications/MyApp.app/*"
+        ; Growl
+        #"^/Library/PreferencePanes/Growl.prefPane/*"
+    )
+)
+
+; read the applications metadata
+(allow file-read-data file-read-metadata
+    (literal "/Users/[^.]+/Library/Preferences/myapp.plist")
+)
+
+; allow read application data
+(allow file-read*
+	(regex
+	#"^/Users/[^.]+/Library/Application Support/MyApp/*"
+	)
+)
+; ----------------
+
+
+
+; System read permission
+; -----------------
 ; allow read system libraries and frameworks (from bsd.sb)
+; these are generally ok left like this
+
 (allow file-read-data file-read-metadata
     (regex
         #"^/usr/lib/.*\.dylib$"
@@ -35,17 +68,7 @@
         #"^/System/Library/*"
     )
 )
-; Vienna Frameworks
 
-(allow file-read*
-    (regex
-        ; Vienna itself
-        #"^/Applications/Vienna.app/*"
-        ; Growl
-        #"^/Library/PreferencePanes/Growl.prefPane/*"
-    )
-)
-; allow read to required system stuff
 (allow file-read*
     (regex
         #"^/usr/share/zoneinfo/*"
@@ -79,23 +102,16 @@
     (literal "/Users")
     (literal "/Users/[^.]+")
     (literal "/System")
-    (literal "/Users/[^.]+/Library/Preferences") (literal "/Library")
+    (literal "/Users/[^.]+/Library/Preferences")
+    (literal "/Library")
     (literal "/Users/[^.]+/Library")
     (literal "/Library/PreferencePanes")
-)
-
-; allow read application data    
-(allow file-read*
-	(regex
-		#"^/Users/[^.]+/Library/Application Support/Vienna/*"
-	)
 )
 
 ; allow read to preferences files
 (allow file-read-data file-read-metadata
     (regex #"^/Users/[^.]+/Library/Preferences/ByHost/.GlobalPreferences.*")
     (literal "/Users/[^.]+/Library/Preferences/.GlobalPreferences.plist")
-    (literal "/Users/[^.]+/Library/Preferences/uk.co.opencommunity.vienna2.plist")
     (literal "/Library/Preferences/.GlobalPreferences.plist")
 )
 
@@ -111,6 +127,8 @@
     (literal "/Users/[^.]+/Library/Preferences/com.apple.java.JavaPreferences.plist")
     (literal "/Users/[^.]+/Library/Preferences/com.apple.quicktime.plugin.preferences.plist")
 )
+; -----------------
+
 
 ; -----------------
 ; WRITE PERMISSIONS
@@ -172,8 +190,7 @@
 ; ------------------------------
 ; MEMORY AND NETWORK PERMISSIONS
 ; ------------------------------
-;
-(allow ipc-posix-shm)
+
 ; network related stuff
 ; add other ports if needed
 (allow network-outbound
@@ -181,9 +198,12 @@
     (remote tcp "*:443")
     (remote unix-socket (path-literal "/private/var/run/mDNSResponder"))
 )
-;
+
+; required to build sockets
 (allow system-socket)
-; deny everything else :-)
+
+(allow ipc-posix-shm)
+
+
+; Make this profile whitelist based
 (deny default)
-
-
