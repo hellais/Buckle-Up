@@ -48,7 +48,10 @@ class BuckleUp(object):
                 sb['version'] = v[2]
                 sb['shortname'] = v[3]
                 sb['name'] = v[4]
-                sb['app_location'] = v[5]
+                if self.app_path:
+                    sb['app_location'] = self.app_path
+                else:
+                    sb['app_location'] = v[5]
                 sb['file'] = file
                 sb['patched'] = False
                 sb['patch_location'] = sb['app_location'] + "-sandboxed"
