@@ -54,6 +54,7 @@
         #"/Users/[^.]+/Library/Application Support/*"
         #"/Users/[^.]+/Library/Saved Application State/com.adiumX*"
         #"/Users/[^.]+/Preferences/ByHost"
+        #"/Users/y/Library/Preferences/com.adiumX.adiumX*"
         #"^/dev/dtracehelper"
         #"^/private/var/*"
         #"^/var/folders/th/*"
