@@ -2,10 +2,12 @@
 The aim of this project is raise sensibility of security on OS X
 and develop seatbelt profiles for all of the common used OSX applications.
 
-To run an with sandboxing enabled all you have to do is:
+To run an app with sandboxing enabled all you have to do is:
+
     sandbox-exec -f <sandbox_file>.sb /path/to/the/app
 
 For example to run the Adium sandbox plugin do this:
+
     sandbox-exec -f adium.sb /Applications/Adium.app/Contents/MacOS/Adium
 
 
