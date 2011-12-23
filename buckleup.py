@@ -35,8 +35,8 @@ class BuckleUp(object):
         ;:buckleup:<buckle_up_version>:<app_shortname>:<app_name>:<app_executable_location>:
         return
             False if the file does not start with the magic header
-            Dict containing bu_version, shortname, name, file (sb file), patched (True|False),
-                            patch_location (patched app filename)
+            Dict containing bu_version, shortname, name, file (sb file), 
+                patched (True|False), patch_location (patched app filename)
         """
         sb = False
         try:
@@ -108,7 +108,8 @@ class BuckleUp(object):
             try:
                 patch = open(sb['app_location'], 'w')
                 patch.write("#!/bin/sh\n")
-                patch.write("# This patch was written by Buckle Up v 0.1 (http://github.com/hellais/Buckle-Up/)\n")
+                patch.write("# This patch was written by Buckle Up ")
+                patch.write("v 0.1 (http://github.com/hellais/Buckle-Up/)\n")
                 patch.write(cmd)
                 patch.write("\n")
             except Exception, e:

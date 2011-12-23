@@ -1,0 +1,149 @@
+;:buckleup:0.1:ironventrilo:Iron Ventrilo:/Applications/Ventrilo.app/Contents/MacOS/Ventrilo:
+;;
+;; MacOSX Sandbox profile for the Ventrilo client
+;;
+;; Copyright 2010 Robert Malmgren AB. All rights reserved.
+;;
+;; Redistribution and use in source and binary forms, with or without modification, are
+;; permitted provided that the following conditions are met:
+;;
+;;   1. Redistributions of source code must retain the above copyright notice, this list of
+;;      conditions and the following disclaimer.
+;;
+;;   2. Redistributions in binary form must reproduce the above copyright notice, this list
+;;      of conditions and the following disclaimer in the documentation and/or other materials
+;;      provided with the distribution.
+;;
+;; THIS SOFTWARE IS PROVIDED BY Robert Malmgren AB ``AS IS'' AND ANY EXPRESS OR IMPLIED
+;; WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+;; FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR
+;; CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+;; CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+;; SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+;; ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+;; ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+;;
+;; The views and conclusions contained in the software and documentation are those of the
+;; authors and should not be interpreted as representing official policies, either expressed
+;; or implied, of Robert Malmgren AB.
+;;
+;;
+
+(version 1)
+
+(deny default)
+(debug deny)
+
+(allow file-ioctl
+       (literal "/dev/dtracehelper"))
+
+(allow file-read-data
+       (literal "/Applications/Ventrilo.app")
+       (literal "/Applications/Ventrilo.app/Contents")
+       (literal "/Applications/Ventrilo.app/Contents/Info.plist")
+       (literal "/Applications/Ventrilo.app/Contents/MacOS/Ventrilo")
+       (literal "/Applications/Ventrilo.app/Contents/Resources")
+       (literal "/Applications/Ventrilo.app/Contents/Resources/English.lproj")
+       (literal "/Applications/Ventrilo.app/Contents/Resources/English.lproj/InfoPlist.strings")
+       (literal "/Applications/Ventrilo.app/Contents/Resources/English.lproj/main.nib/objects.xib")
+       (literal "/Applications/Ventrilo.app/Contents/Resources/Ventrilo.rsrc")
+       (literal "/Applications/Ventrilo.app/Contents/Resources/Ventrilo.rsrc/..namedfork/rsrc")
+       (literal "/Library/Audio/Plug-Ins/HAL")
+       (literal "/Library/Audio/Plug-Ins/HAL/iSightAudio.plugin")
+       (literal "/Library/Audio/Plug-Ins/HAL/iSightAudio.plugin/Contents")
+       (literal "/Library/Audio/Plug-Ins/HAL/iSightAudio.plugin/Contents/Info.plist")
+       (subpath "/Library/Preferences/Ventrilo/wav")
+       (literal "/Library/Preferences/.GlobalPreferences.plist")
+       (literal "/Users/[^.]+/Library/Preferences/.GlobalPreferences.plist")
+       (regex "^/Users/[^.]+/Library/Preferences/ByHost/.GlobalPreferences.*$")
+       (literal "/Users/[^.]+/Library/Preferences/Ventrilo/.ventrilo.pwc")
+       (literal "/Users/[^.]+/Library/Preferences/Ventrilo/default.vet")
+       (literal "/Users/[^.]+/Library/Preferences/Ventrilo/ventrilo2.ini")
+       (literal "/dev/dtracehelper")
+       (literal "/dev/null")
+       (literal "/dev/urandom")
+       (regex #"^/private/var/folders/[^/]+/[^/]+/-Caches-/com\.apple\.IntlDataCache\.le$")
+       (regex #"^/private/var/folders/[^/]+/[^/]+/-Caches-/com\.apple\.IntlDataCache\.le\.sbdl$")
+       (subpath "/System")
+       (subpath "/tmp")
+       (subpath "/private/tmp")
+       (subpath "/usr/share"))
+
+(allow file-read-metadata
+       (literal "/")
+       (literal "/Applications")
+       (subpath "/Applications/Ventrilo.app")
+       (subpath "/Library/Preferences/Ventrilo/wav")
+       (literal "/Library/Audio/Plug-Ins/HAL/iSightAudio.plugin")
+       (literal "/Library/Audio/Plug-Ins/HAL/iSightAudio.plugin/Contents")
+       (literal "/Library/Preferences/.GlobalPreferences.plist")
+       (subpath "/Library/Preferences/Ventrilo/wav")
+       (literal "/Users/[^.]+")
+       (literal "/Users/[^.]+/Library")
+       (literal "/Users/[^.]+/Library/Audio/Plug-Ins/Components")
+       (literal "/Users/[^.]+/Library/Preferences")
+       (literal "/Users/[^.]+/Library/Preferences/.GlobalPreferences.plist")
+       (regex "^/Users/[^.]+/Library/Preferences/ByHost/.GlobalPreferences.*$")
+       (literal "/etc")
+       (literal "/private/etc/localtime")
+       (literal "/private/var/db/.AppleSetupDone")
+       (subpath "/private/var/folders/Fm")
+       (literal "/tmp")
+       (literal "/var")
+       (subpath "/System")
+       (subpath "/usr/lib")
+       (subpath "/tmp")
+       (subpath "/private/tmp")
+       (subpath "/usr/share"))
+
+(allow file-write*
+       (subpath "/tmp")
+       (subpath "/private/tmp")
+       (subpath "/Users/[^.]+/Library/Application Support/Skype")
+       (literal "/Users/[^.]+/Library/Preferences/.GlobalPreferences.plist")
+       (literal "/Users/[^.]+/Library/Preferences/Ventrilo/ventrilo.log")
+       (regex "^/Users/[^.]+/Library/Preferences/.GlobalPreferences.plist.*$"))
+
+(allow file-write-data
+       (literal "/Users/[^.]+/Library/Preferences/Ventrilo/.ventrilo.pwc")
+       (literal "/Users/[^.]+/Library/Preferences/Ventrilo/ventrilo2.ini")
+       (literal "/dev/dtracehelper")
+       (regex #"^/private/var/folders/[^/]+/[^/]+/-Caches-/com\.apple\.IntlDataCache\.le$"))
+
+(allow ipc-posix-shm)
+
+(allow mach-lookup
+       (global-name "com.apple.CoreServices.coreservicesd")
+       (global-name "com.apple.FontObjectsServer")
+       (global-name "com.apple.FontServer")
+       (global-name "com.apple.SecurityServer")
+       (global-name "com.apple.SystemConfiguration.configd")
+       (global-name "com.apple.audio.coreaudiod")
+       (global-name "com.apple.distributed_notifications.2")
+;;       (global-name "com.apple.dock.server")
+       (global-name "com.apple.pasteboard.1")
+       (global-name "com.apple.system.DirectoryService.libinfo_v1")
+       (global-name "com.apple.system.DirectoryService.membership_v1")
+       (global-name "com.apple.system.notification_center")
+       (global-name "com.apple.tsm.uiserver")
+       (global-name "com.apple.windowserver.session"))
+
+(allow network-inbound
+       (local udp "*:*")
+       (local udp "*:59503")
+       (local udp "*:60615"))
+
+(allow network-outbound
+       (literal "/private/var/run/mDNSResponder")
+       (remote tcp "*:4203")
+       (remote tcp "*:52674")
+       (remote udp "*:4203")
+       (remote udp "*:5000")
+       (remote udp "*:52674")
+       (remote udp "*:6100"))
+
+(allow process-exec
+       (literal "/Applications/Ventrilo.app/Contents/MacOS/Ventrilo"))
+
+(allow sysctl-read)

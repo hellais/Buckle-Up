@@ -1,0 +1,186 @@
+;:buckleup:0.1:ironfox10.5:Iron Fox 10.5:/Applications/Firefox.app/Contents/MacOS/firefox:
+;; MacOSX Sandbox profile for ironfox
+;;
+;; Copyright 2010 Robert Malmgren AB. All rights reserved.
+;;
+;; Redistribution and use in source and binary forms, with or without modification, are
+;; permitted provided that the following conditions are met:
+;;
+;;   1. Redistributions of source code must retain the above copyright notice, this list of
+;;      conditions and the following disclaimer.
+;;
+;;   2. Redistributions in binary form must reproduce the above copyright notice, this list
+;;      of conditions and the following disclaimer in the documentation and/or other materials
+;;      provided with the distribution.
+;;
+;; THIS SOFTWARE IS PROVIDED BY Robert Malmgren AB ``AS IS'' AND ANY EXPRESS OR IMPLIED
+;; WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+;; FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR
+;; CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+;; CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+;; SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+;; ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+;; ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+;;
+;; The views and conclusions contained in the software and documentation are those of the
+;; authors and should not be interpreted as representing official policies, either expressed
+;; or implied, of Robert Malmgren AB.
+;;
+;; Written by andreas@romab.com
+;; adapted for plugin-system by
+;; rom@romab.com
+;;
+(version 1)
+;; ugly hack to 'backport' subpath to 10.5
+;; it sucks, any schemers have any suggestions? :-)
+(define (subpath-hack str)
+  (define regchars "\\[]^.$()|-*+?{}")
+;; define the regexp special characters
+
+  (define (instr str char)
+    (cond
+       ((equal? 0 (string-length str)) #f)
+       ((equal? char (substring str 0 1)) #t)
+    (else
+      (instr (substring str 1) char))                ;; recursion roxx
+    )
+  )
+
+
+  (let sproc ((str str) (rest ""))
+  (if (equal? 0 (string-length str))
+        rest
+        (sproc (substring str 1)                     ;; use a helper function
+                (let ((char (substring str 0 1)))
+                  (if (instr regchars char)
+;; Quote any regexp chars to not screw the call to regex with a file name containing special characters
+                      (string-append rest "\\" char)
+                      (string-append rest char)
+          )
+          )
+        )
+    )
+  )
+)
+
+(define (subpath dir) ;; Re-implement a 10.6 compatible "subpath"
+(regex (string-append "^" (subpath-hack dir ) "($|/)")))
+
+
+(debug deny)
+(deny default)
+
+(allow network-outbound)
+
+(allow file-read-data file-read-metadata
+       (subpath "/Library/Application Support/Mozilla/Extensions")
+       (subpath "%%homedir%%/Library/Caches/TemporaryItems")
+       (subpath "%%homedir%%/Library/Internet Plug-Ins")
+       (subpath "/Library/ColorSync/Profiles/Displays")
+       (subpath "/Library/Fonts")
+       (literal "/Library")
+       (subpath "/Applications/IronFox.app")
+       (subpath "/Applications/Firefox.app")
+       (literal "/Library/Preferences/.GlobalPreferences.plist")
+       (subpath "%%homedir%%/Downloads")
+       (literal "%%homedir%%/Library")
+       (subpath "%%homedir%%/Library/Application Support/Firefox")
+       (literal "%%homedir%%/Library/Application Support")
+       (literal "%%homedir%%/Library/Caches")
+       (subpath "%%homedir%%/Library/Caches/Firefox")
+       (literal "/Users")
+       (literal "%%homedir%%")
+       (regex "^%%homedir%%/Library/Preferences/ByHost/\.GlobalPreferences\..*\.plist")
+       (literal "%%homedir%%/Library/Preferences/.GlobalPreferences.plist")
+       (literal "%%homedir%%/Library/Preferences/org.mozilla.firefox.plist")
+       (literal "%%homedir%%/Library/Preferences/com.apple.internetconfigpriv.plist")
+       (literal "%%homedir%%/Library/Preferences/com.apple.LaunchServices.plist")
+       (subpath "%%homedir%%/Library/Application Support/Mozilla")
+       (literal "/dev/urandom")
+       (literal "/usr")
+       (literal "/private")
+       (subpath "%%tmpdir%%")
+       (subpath "/private%%tmpdir%%")
+	; ugly rules, should be more finegrained.
+       (subpath "/System")
+       (subpath "/usr/lib")
+       (subpath "/usr/share"))
+
+(allow file-read-data
+       (literal "/dev/dtracehelper")
+       (literal "/dev/null")
+       (literal "/dev/tty")
+       (literal "/usr/bin/open/..namedfork/rsrc"))
+; this disables lots of loggin
+;(deny file-read-metadata (with no-log))
+(allow file-read-metadata
+       (literal "/private/etc/localtime")
+       (literal "/")
+       (literal "/Applications")
+       (literal "/Library")
+       (literal "%%homedir%%/Library")
+       (literal "%%homedir%%/Library/Application Support")
+       (literal "%%homedir%%/Library/Caches")
+       (literal "%%homedir%%/Library/PreferencePanes")
+       (literal "/Library/Application Support")
+       (subpath "/Library/Application Support/Mozilla")
+       (literal "/Library/PreferencePanes")
+       (subpath "/Library/PreferencePanes/Growl.prefPane")
+       (literal "/etc")
+       (literal "/usr/bin/open")
+       (subpath "%%homedir%%/Library/Preferences")
+       (literal "/private/etc/passwd")
+       (literal "/tmp")
+       (literal "/var"))
+
+(allow file-write-data
+
+       (literal "/dev/dtracehelper")
+       (literal "/dev/tty"))
+
+; we don't want to know about .globalprefrences.
+;(deny file-write* (regex "^%%homedir%%/Library/Preferences/\.GlobalPreferences.*$") (with no-log))
+
+(allow file-write*
+        (subpath "%%homedir%%/Library/Caches/TemporaryItems")
+        (subpath "%%homedir%%/Library/Caches/Firefox")
+        (subpath "%%tmpdir%%")
+        (subpath "/private%%tmpdir%%")
+        (subpath "%%homedir%%/Library/Application Support/Firefox/Crash Reports")
+        (regex "^%%homedir%%/Library/Preferences/org.mozilla.firefox.*$")
+        (regex "^%%homedir%%/Library/Preferences/.GlobalPreferences.plist\..*$")
+	(subpath "%%homedir%%/Downloads")
+	(subpath "%%homedir%%/Library/Application Support/Firefox/Profiles"))
+
+(allow ipc-posix-shm)
+
+(allow mach-lookup
+       (global-name "com.apple.CoreServices.coreservicesd")
+       (global-name "com.apple.SecurityServer")
+       (global-name "com.apple.SystemConfiguration.configd")
+       (global-name "com.apple.distributed_notifications.2")
+       (global-name "com.apple.dock.server")
+       (global-name "com.apple.FontServer")
+       (global-name "com.apple.FontObjectsServer")
+       (global-name "com.apple.metadata.mds")
+       (global-name "com.apple.tsm.uiserver")
+       (global-name "com.apple.system.DirectoryService.libinfo_v1")
+       (global-name "com.apple.system.DirectoryService.membership_v1")
+       (global-name "com.apple.system.logger")
+       (global-name "com.apple.system.notification_center")
+       (global-name "com.apple.pasteboard.1")
+       (global-name "com.apple.windowserver.session")
+       (global-name "com.apple.DiskArbitration.diskarbitrationd")
+       (global-name "com.apple.bsd.dirhelper")
+       (global-name "com.apple.pasteboard.666")
+       (global-name "com.apple.windowserver.active"))
+
+(allow process-exec
+       (literal "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
+	;; nss uses this for random data. probably a bug in nss_lib for ff for mac.
+       (literal "/usr/sbin/netstat")
+       (literal "/usr/bin/basename"))
+
+(allow process-fork)
+(allow sysctl-read)

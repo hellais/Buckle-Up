@@ -1,0 +1,201 @@
+;:buckleup:0.1:tweetdeck:Tweetdeck:/Applications/TweetDeck.app/Contents/MacOS/TweetDeck:
+;;
+;; MacOSX Sandbox profile for the Tweetdeck twitter client
+;;
+;; Copyright 2010 Robert Malmgren AB. All rights reserved.
+;;
+;; Redistribution and use in source and binary forms, with or without modification, are
+;; permitted provided that the following conditions are met:
+;;
+;;   1. Redistributions of source code must retain the above copyright notice, this list of
+;;      conditions and the following disclaimer.
+;;
+;;   2. Redistributions in binary form must reproduce the above copyright notice, this list
+;;      of conditions and the following disclaimer in the documentation and/or other materials
+;;      provided with the distribution.
+;;
+;; THIS SOFTWARE IS PROVIDED BY Robert Malmgren AB ``AS IS'' AND ANY EXPRESS OR IMPLIED
+;; WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+;; FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR
+;; CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+;; CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+;; SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+;; ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+;; ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+;;
+;; The views and conclusions contained in the software and documentation are those of the
+;; authors and should not be interpreted as representing official policies, either expressed
+;; or implied, of Robert Malmgren AB.
+;;
+;;
+;;
+
+(version 1)
+
+(deny default)
+(debug deny)
+
+(allow file-ioctl
+       (literal "/dev/dtracehelper"))
+
+(allow file-read-data
+       (subpath "/Applications/TweetDeck.app")
+       (literal "/Library/Keychains/System.keychain")
+       (literal "/Library/Preferences/.GlobalPreferences.plist")
+       (literal "/Library/Preferences/com.apple.HIToolbox.plist")
+       (literal "/Library/Audio/Plug-Ins/HAL")
+       (subpath "/Library/Frameworks/Adobe AIR.framework")
+       (subpath "/Library/Fonts")
+       (literal "/Users")
+       (literal "/Users/[^.]+")
+       (regex "^/Users/[^.]+/Library/Caches/TweetDeckFast.*$")
+       (literal "/Users/[^.]+/Library/Cookies/Cookies.plist")
+       (literal "/Users/[^.]+/Library/Keychains/Microsoft_Intermediate_Certificates")
+       (literal "/Users/[^.]+/Library/Keychains/login.keychain")
+       (literal "/Users/[^.]+/Library/Preferences/.GlobalPreferences.plist")
+       (regex "^/Users/[^.]+/Library/Preferences/ByHost/.GlobalPreferences.*$")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.LaunchServices.plist")
+       (literal "/Users/[^.]+/Library/Preferences/QuickTime Preferences")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.security.plist")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.security.revocation.plist")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.DownloadAssessment.plist")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.WebFoundation.plist")
+       (subpath "/Users/[^.]+/Library/Preferences/Macromedia")
+       (regex "^/Users/[^.]+/Library/Preferences/TweetDeckFast.*$")
+       (regex "^/Users/[^.]+/Library/Preferences/ByHost/com.apple.HIToolbox.*$")
+       (subpath "/Users/[^.]+/Library/Keyboard Layouts")
+       (subpath "/Users/[^.]+/Library/Input Methods")
+       (subpath "/Users/[^.]+/Library/Application Support/Adobe")
+       (subpath "/Users/[^.]+/Library/Caches/Adobe")
+       (literal "/Users/[^.]+/Sandboxes")
+       (literal "/dev/dtracehelper")
+       (literal "/dev/null")
+       (literal "/dev/urandom")
+       (literal "/dev/random")
+       (literal "/usr/bin")
+       (literal "/usr/bin/open")
+       (literal "/usr/bin/open/..namedfork/rsrc")
+       (literal "/private/etc/localtime")
+       (literal "/private/var/db/mds/system/mdsObject.db")
+       (literal "/private/var/db/mds/system/mdsDirectory.db")
+       (literal "/private/var/db/mds/messages/se_SecurityMessages")
+       (subpath "/tmp")
+       (subpath "/private/tmp")
+       (subpath "/private/var/folders/Fm")
+       (subpath "/usr/share")
+       (subpath "/usr/lib")
+       (subpath "/System"))
+
+(allow file-read-xattr
+       (subpath "/Users/[^.]+/Library/Application Support/Adobe/AIR"))
+
+(allow file-read-metadata
+       (literal "/")
+       (literal "/Applications")
+       (subpath "/Applications/TweetDeck.app")
+       (literal "/Applications/Utilities")
+       (literal "/Library/Preferences/.GlobalPreferences.plist")
+       (subpath "/Library/Frameworks/Adobe AIR.framework")
+       (regex "^/Library/Preferences/com.apple.HIToolbox.*$")
+       (literal "/private/etc/localtime")
+       (literal "/Network")
+       (literal "/Library")
+       (subpath "/Library/Application Support")
+       (subpath "/Library/Components")
+       (literal "/Library/Frameworks")
+       (subpath "/Library/Fonts")
+       (subpath "/Library/Keyboard Layouts")
+       (subpath "/Library/Input Methods")
+       (literal "/Users")
+       (literal "/Users/[^.]+")
+       (literal "/Users/[^.]+/Library")
+       (literal "/Users/[^.]+/Library/Caches")
+       (subpath "/Users/[^.]+/Library/Caches/Adobe")
+       (regex "/Users/[^.]+/Library/Caches/TweetDeckFast.*$")
+       (literal "/Users/[^.]+/Library/Preferences")
+       (subpath "/Users/[^.]+/Library/Preferences/Macromedia")
+       (regex "^/Users/[^.]+/Library/Preferences/TweetDeckFast.*$")
+       (literal "/Users/[^.]+/Library/Preferences/.GlobalPreferences.plist")
+       (regex "^/Users/[^.]+/Library/Preferences/ByHost/.GlobalPreferences.*$")
+       (literal "/Users/[^.]+/Library/Preferences/ByHost")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.LaunchServices.plist")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.security.plist")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.security.revocation.plist")
+       (literal "/Users/[^.]+/Library/Preferences/com.apple.WebFoundation.plist")
+       (literal "/Users/[^.]+/Library/Preferences/QuickTime Preferences")
+       (subpath "/Users/[^.]+/Library/Audio")
+       (subpath "/Users/[^.]+/Library/Keyboard Layouts")
+       (subpath "/Users/[^.]+/Library/Input Methods")
+       (subpath "/Users/[^.]+/Library/Application Support")
+       (subpath "/Users/[^.]+/Library/Autosave Information")
+       (regex "^/Users/[^.]+/Library/Preferences/ByHost/com.apple.HIToolbox.*$")
+       (literal "/Users/[^.]+/Sandboxes")
+       (literal "/etc")
+       (literal "/var")
+       (literal "/tmp")
+       (literal "/usr/bin")
+       (literal "/usr/bin/open")
+       (literal "/private/var/db/.AppleSetupDone")
+       (literal "/private/var/db/mds/system/mdsObject.db")
+       (subpath "/private/var/folders/Fm")
+       (subpath "/System")
+       (subpath "/usr/share")
+       (subpath "/tmp")
+       (subpath "/private/tmp")
+       (subpath "/usr/lib"))
+
+(allow file-write-data
+       (literal "/dev/dtracehelper"))
+
+(allow file-write*
+       (subpath "/var/folders/Fm")
+       (subpath "/private/var/folders")
+       (subpath "/tmp")
+       (subpath "/private/tmp")
+       (regex "^/Users/[^.]+/Library/Caches/TweetDeckFast.*$")
+       (literal "/Users/[^.]+/Library/Preferences/Macromedia/Flash Player/#Security/FlashPlayerTrust/air.1.0.trust.cfg")
+       (regex "^/Users/[^.]+/Library/Preferences/TweetDeckFast.*$")
+       (literal "/Users/[^.]+/Library/Cookies/Cookies.plist")
+       (regex "^/Users/[^.]+/Library/Cookies/Cookies.plist_tmp_.*$")
+       (regex "^/Users/[^.]+/Library/Application Support/Adobe/AIR/ELS/TweetDeckFast.*$")
+       (regex "^/Users/[^.]+/Library/Preferences/ByHost/com.apple.HIToolbox.*$"))
+
+(allow ipc-posix-shm)
+(allow ipc-posix-sem)
+(allow ipc-sysv-shm)
+
+(allow system-socket)
+(allow network-outbound (remote tcp "*:443" ))	;; Twitter messages
+(allow network-outbound (remote tcp "*:80" ))	;; Twitter pictures + "Twitter recommends messages"
+(allow network-outbound
+       (remote unix-socket (path-literal "/private/var/run/mDNSResponder")))
+
+(allow mach-lookup
+       (global-name "com.apple.SystemConfiguration.configd")
+       (global-name "com.apple.audio.coreaudiod")
+       (global-name "com.apple.ocspd")
+       (global-name "com.apple.pasteboard.1")
+       (global-name "com.apple.FontObjectsServer")
+       (global-name "com.apple.FontServer")
+       (global-name "com.apple.tsm.uiserver")
+       (global-name "com.apple.windowserver.session")
+       (global-name "com.apple.windowserver.active")
+       (global-name "com.apple.system.logger")
+       (global-name "com.apple.dock.server")
+       (global-name "com.apple.CoreServices.coreservicesd")
+       (global-name "com.apple.SecurityServer")
+       (global-name "com.apple.distributed_notifications.2")
+       (global-name "com.apple.metadata.mds")
+       (global-name "com.apple.system.DirectoryService.libinfo_v1")
+       (global-name "com.apple.system.DirectoryService.membership_v1")
+       (global-name "com.apple.system.notification_center")
+	 )
+
+(allow process-exec
+       ;; Different versions of Tweetdeck seem to have different spelling of the DECK part...
+       (regex "^/Applications/TweetDeck.app/Contents/MacOS/Tweet[Dd]eck$"))
+
+(allow job-creation)
+
+(allow sysctl-read)
