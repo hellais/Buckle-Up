@@ -52,7 +52,7 @@ class BuckleUp(object):
                     sb['app_location'] = self.app_path
                 else:
                     sb['app_location'] = v[5]
-                sb['file'] = file
+                sb['file'] = os.path.join(self.sb_file_location,file)
                 sb['patched'] = False
                 sb['patch_location'] = sb['app_location'] + "-sandboxed"
                 if os.path.exists(sb['patch_location']):
