@@ -50,6 +50,26 @@ For example to run the Adium sandbox plugin do this:
     sandbox-exec -f adium.sb /Applications/Adium.app/Contents/MacOS/Adium
 
 
+## Buckle Up header
+
+Sandbox profiles for Buckle Up include a special header that allows the shell script to offer a pretty output
+to the user and automagically install the application. 
+
+When writing an application profile for Buckle up you should use this format. The header should be on the first
+line of the sandbox profile:
+
+    ;:buckleup:<buckleup version number>:<app short name>:<app long name>:<path to executable>:
+
+_buckleup version number_: (default 0.1) This is the Buckle Up version number for the app profile
+
+_app short name_: This is the shortname of the profile, it is what the user will provide as arugment to 
+buckle up to patch the application or run it
+
+_app long name_: This is the full name of the profile, it controls what will show in the list view
+
+_path to executable_: This is the full path of the executable that should be patched, it is generally 
+something like /Applications/MyApp.app/Contents/MacOS/MyApp
+
 ## How to write a sandbox profile
 
 You want to start from a basic sandbox profile that contains the bare minimum necessary to start the application. Something along the lines of this is a good starting point:
