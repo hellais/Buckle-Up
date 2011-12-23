@@ -18,7 +18,7 @@ class BuckleUp(object):
         # Debugging
         self.debug = True
         # Where the script should look for sandbox file to be installed
-        self.sb_file_location = "./"
+        self.sb_file_location = "./profiles"
         # Where sandbox files should be installed to
         self.bu_dir = os.path.expanduser("~/.buckleup")
         if not os.path.exists(self.bu_dir):
@@ -35,7 +35,7 @@ class BuckleUp(object):
         ;:buckleup:<buckle_up_version>:<app_shortname>:<app_name>:<app_executable_location>:
         return
             False if the file does not start with the magic header
-            Dict containing bu_version, shortname, name, file (sb file), 
+            Dict containing bu_version, shortname, name, file (sb file),
                 patched (True|False), patch_location (patched app filename)
         """
         sb = False
