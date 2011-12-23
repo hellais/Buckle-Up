@@ -18,7 +18,7 @@ class BuckleUp(object):
         # Debugging
         self.debug = True
         # Where the script should look for sandbox file to be installed
-        self.sb_file_location = "./profiles"
+        self.sb_file_location = os.path.join(os.getcwd(),"profiles/")
         # Where sandbox files should be installed to
         self.bu_dir = os.path.expanduser("~/.buckleup")
         if not os.path.exists(self.bu_dir):
@@ -40,7 +40,7 @@ class BuckleUp(object):
         """
         sb = False
         try:
-            f = open(file, 'r')
+            f = open(os.path.join(self.sb_file_location,file), 'r')
             line = f.readline()
             if line.startswith(';:buckleup'):
                 sb = {}
