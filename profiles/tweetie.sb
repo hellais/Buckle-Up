@@ -9,7 +9,7 @@
 (version 1)
 (debug all)
 (import "bsd.sb")
-(trace "trace.sb")
+;; (trace "trace.sb")
 (deny default)
 
 (allow network-outbound 
