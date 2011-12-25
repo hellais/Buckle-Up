@@ -1,0 +1,104 @@
+;:buckleup:0.1:tweetie:Tweetie:/Applications/Tweetie.app/Contents/MacOS/Tweetie:
+;; This is the seatbelt teamplate for profiling your own apps
+;; based on Vienna sandbox profile by @osxreverser 
+;;   and Arturo Filasto' <art@globaleaks.org>
+;; 
+;; This Tweetie sandbox by: sk@mr-sk.com aka mr-sk aka sk
+;; Pretty locked down. 
+
+(version 1)
+(debug all)
+(import "bsd.sb")
+;; (trace "trace.sb")
+(deny default)
+
+(allow network-outbound 
+       (remote tcp4 "*:443")
+       (remote tcp4 "*:80")
+)
+
+(allow sysctl-write)
+
+(allow process-exec (literal "/Applications/Tweetie.app/Contents/MacOS/Tweetie"))
+
+;; Read priv
+(allow file-read-data 
+       (regex "^/Applications/Tweetie.app/*")
+       (literal "/usr/share/icu/icudt40l.dat")
+       (regex "/Users/.*/Library/Preferences/com.atebits.tweetie-mac.plist")
+       (regex "/Users/.*/Library/Preferences/ByHost/.GlobalPreferences.*\.plist")
+       (regex "/Users/.*/Library/Preferences/.GlobalPreferences.plist")
+       (literal "/Library/Preferences/.GlobalPreferences.plist")
+       (regex "/Users/.*/Library/Caches/com.atebits.tweetie.profile-images/")
+       (literal "/Library/Fonts/Arial Unicode.ttf")
+       (regex "/Users/.*/Library/Caches/com.atebits.tweetie-mac/*")
+)
+
+;; Write privs
+(allow file-write* 
+       (regex "/Users/.*/Library/Preferences/com.atebits.tweetie-mac.plist")
+       (regex "/Users/.*/Library/Caches/com.atebits.tweetie-mac/Cache*")
+       (regex "/Users/.*/Library/Caches/com.atebits.tweetie.profile-images/*")
+)
+
+;; Here are all the other calls Tweetie wants to make that I've NOT allowed
+;;   and the application still seems to work. Included here for your reference.
+
+; (allow mach-lookup (global-name "com.apple.distributed_notifications.2"))
+; (allow mach-lookup (global-name "com.apple.SecurityServer"))
+; (allow mach-lookup (global-name "com.apple.CoreServices.coreservicesd"))
+; (allow mach-lookup (global-name "com.apple.windowserver.session"))
+; (allow mach-lookup (global-name "com.apple.dock.server"))
+; (allow mach-lookup (global-name "com.apple.pasteboard.1"))
+; (allow file-read-data (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/com.apple.IntlDataCache.le"))
+; (allow file-write-data (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/com.apple.IntlDataCache.le"))
+; (allow file-read-data (literal "/Users/.*/Library/Keyboard Layouts"))
+; (allow file-read-data (literal "/Users/.*/Library/Input Methods"))
+; (allow mach-lookup (global-name "com.apple.FontServer"))
+; (allow file-read-xattr (literal "/Users/.*/Library/PreferencePanes"))
+; (allow file-read-data (literal "/Users/.*/Library/PreferencePanes"))
+; (allow file-read-data (literal "/Users/.*/Library/PreferencePanes/MySQL.prefPane"))
+; (allow file-read-xattr (literal "/Library/PreferencePanes"))
+; (allow file-read-data (literal "/Library/PreferencePanes"))
+; (allow file-read-data (literal "/Library/PreferencePanes/MacFUSE.prefPane"))
+; (allow file-read-data (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mds.lock"))
+; (allow file-write-data (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mds.lock"))
+; (allow file-write* (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsObject.db"))
+; (allow file-write* (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsObject.db_"))
+; (allow file-write-mode (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsObject.db_"))
+; (allow file-read-data (literal "/private/var/db/mds/system/mdsObject.db"))
+; (allow file-write* (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsObject.db_"))
+; (allow file-write* (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsObject.db"))
+; (allow file-write* (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsDirectory.db_"))
+; (allow file-write-mode (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsDirectory.db_"))
+; (allow file-read-data (literal "/private/var/db/mds/system/mdsDirectory.db"))
+; (allow file-write* (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsDirectory.db_"))
+; (allow file-write* (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsDirectory.db"))
+; (allow file-read-data (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsObject.db"))
+; (allow file-read-data (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/mds/mdsDirectory.db"))
+; (allow file-read-data (literal "/private/var/db/mds/messages/se_SecurityMessages"))
+; (allow file-read-data (literal "/Users/.*/Library/Keychains/login.keychain"))
+; (allow mach-lookup (global-name "com.apple.SystemConfiguration.configd"))
+; (allow system-socket)
+; (allow file-read-data (literal "/Library/Keychains/System.keychain"))
+; (allow mach-lookup (global-name "com.apple.SystemConfiguration.configd"))
+; (allow network-outbound (literal "/private/var/run/mDNSResponder"))
+; (allow mach-lookup (global-name "com.apple.cvmsServ"))
+; (allow system-socket)
+; (allow mach-lookup (global-name "com.apple.tsm.uiserver"))
+; (allow mach-lookup (global-name "com.apple.ocspd"))
+; (allow system-socket)
+; (allow file-read-data (literal "/Users/.*/Library/Cookies/Cookies.plist"))
+; (allow file-read-data (literal "/Users/.*/Library/KeyBindings/DefaultKeyBinding.dict"))
+; (allow file-read-data (literal "/Users/.*/Library/Preferences/pbs.plist"))
+; (allow file-read-data (literal "/Users/.*/Library/Spelling"))
+; (allow file-read-data (literal "/Library/Spelling"))
+; (allow file-read-data (literal "/Users/.*/Library/Preferences/ByHost/com.apple.iWork.Pages.2643F3AC-25EC-5A24-8E44-45C33127C7E5.plist"))
+; (allow file-read-data (literal "/Users/.*/Library/Preferences/com.apple.iWork.Pages.plist"))
+; (allow file-read-data (literal "/usr/share/langid/langid.inv"))
+; (allow mach-lookup (global-name "Multilingual (Apple)_OpenStep"))
+; (allow file-read-data (literal "/private/var/folders/39/39j2ZEPGGxeMpbKFRp0uBk+++TI/-Caches-/com.apple.DataDetectors.little_endian.1dac5f15f4677617"))
+; (allow mach-lookup (global-name "en (Apple)_OpenStep"))
+; (allow file-read-data (literal "/Users/.*/Library/Keychains/login.keychain"))
+; (allow file-read-data (literal "/Library/Keychains/System.keychain"))
+; (allow system-socket)

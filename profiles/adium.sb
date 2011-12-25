@@ -60,7 +60,7 @@
         #"/Users/[^.]+/Library/Saved Application State/com.adiumX*"
         #"/Users/[^.]+/Preferences/ByHost"
         #"/Users/[^.]+/Library/Caches/Adium/"
-        #"/Users/y/Library/Preferences/com.adiumX.adiumX*"
+        #"/Users/[^.]+/Library/Preferences/com.adiumX.adiumX*"
         #"^/dev/dtracehelper"
         #"^/private/var/*"
         #"^/private/tmp/*"
