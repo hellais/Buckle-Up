@@ -94,10 +94,10 @@ class BuckleUp(object):
             print "[!] Application already patched. Try running it!"
 
         else:
-            sb_file_dst = os.path.join(self.bu_dir,sb['file'])
+            sb_file_dst = os.path.join(self.bu_dir,sb['file'].split("/")[-1])
 
             if self.debug:
-                print "Copying the sandbox profile to home config"
+                print "Copying the sandbox profile to home config %s %s" % (sb['file'], sb_file_dst)
             shutil.copyfile(sb['file'], sb_file_dst)
 
             cmd = "sandbox-exec -f " + str(sb_file_dst) + " " + str(sb['patch_location'])
